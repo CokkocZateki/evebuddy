@@ -298,8 +298,17 @@ func NewMobileUI(bu *baseUI) *MobileUI {
 		},
 	)
 
+	corpMotdNav := iwidget.NewListItemWithIcon(
+		"Bulletin",
+		theme.NewThemedResource(icons.MessageSvg),
+		func() {
+			corpNav.Push(newCorpAppBar("Bulletin", u.corporationMotd))
+		},
+	)
+
 	corpList := iwidget.NewNavList(
 		slices.Concat([]*iwidget.ListItem{
+			corpMotdNav,
 			iwidget.NewListItemWithIcon(
 				"Corporation Sheet",
 				theme.NewThemedResource(icons.PortraitSvg),

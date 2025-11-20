@@ -136,6 +136,7 @@ type baseUI struct {
 	corporationContracts    *contracts
 	corporationIndyJobs     *industryJobs
 	corporationMember       *corporationMember
+	corporationMotd         *corporationMotd
 	corporationSheet        *corporationSheet
 	corporationStructures   *corporationStructures
 	corporationWallets      map[app.Division]*corporationWallet
@@ -401,6 +402,7 @@ func NewBaseUI(arg BaseUIParams) *baseUI {
 	u.corporationContracts = newContractsForCorporation(u)
 	u.corporationIndyJobs = newIndustryJobsForCorporation(u)
 	u.corporationMember = newCorporationMember(u)
+	u.corporationMotd = newCorporationMotd(u)
 	u.corporationStructures = newCorporationStructures(u)
 	u.corporationSheet = newCorporationSheet(u, true)
 	for _, d := range app.Divisions {
@@ -824,6 +826,7 @@ func (u *baseUI) updateCorporation() {
 	ff["corporationContracts"] = u.corporationContracts.update
 	ff["corporationIndyJobs"] = u.corporationIndyJobs.update
 	ff["corporationMember"] = u.corporationMember.update
+	ff["corporationMotd"] = u.corporationMotd.update
 	ff["corporationSheet"] = u.corporationSheet.update
 	ff["corporationStructures"] = u.corporationStructures.update
 	ff["corporationWalletTotal"] = u.updateCorporationWalletTotal

@@ -429,6 +429,14 @@ type CorporationMember struct {
 	CharacterID   int64
 }
 
+type CorporationMessage struct {
+	CorporationID int64
+	Message       string
+	SourceUrl     sql.NullString
+	UpdatedAt     time.Time
+	UpdatedBy     sql.NullInt64
+}
+
 type CorporationSectionStatus struct {
 	ID            int64
 	Comment       string
