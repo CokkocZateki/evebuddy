@@ -20,11 +20,54 @@ import (
 type CharacterServiceFake struct {
 	Token          *app.CharacterToken
 	CorporationIDs set.Set[int32]
+	Character      *app.Character
+	Characters     []*app.Character
+	Roles          map[int32][]app.CharacterRole
 	Error          error
 }
 
 func (s *CharacterServiceFake) CharacterTokenForCorporation(ctx context.Context, corporationID int32, roles set.Set[app.Role], scopes set.Set[string], checkToken bool) (*app.CharacterToken, error) {
 	return s.Token, s.Error
+}
+
+func (s *CharacterServiceFake) GetCharacter(ctx context.Context, characterID int32) (*app.Character, error) {
+	if s.Error != nil {
+		return nil, s.Error
+	}
+	if s.Character != nil && s.Character.ID == characterID {
+		return s.Character, nil
+	}
+	for _, c := range s.Characters {
+		if c.ID == characterID {
+			return c, nil
+		}
+	}
+	return nil, app.ErrNotFound
+}
+
+func (s *CharacterServiceFake) ListCharacters(ctx context.Context) ([]*app.Character, error) {
+	if s.Error != nil {
+		return nil, s.Error
+	}
+	if len(s.Characters) > 0 {
+		return s.Characters, nil
+	}
+	if s.Character != nil {
+		return []*app.Character{s.Character}, nil
+	}
+	return []*app.Character{}, nil
+}
+
+func (s *CharacterServiceFake) ListRoles(ctx context.Context, characterID int32) ([]app.CharacterRole, error) {
+	if s.Error != nil {
+		return nil, s.Error
+	}
+	if s.Roles != nil {
+		if r, ok := s.Roles[characterID]; ok {
+			return r, nil
+		}
+	}
+	return []app.CharacterRole{}, nil
 }
 
 func NewFake(st *storage.Storage, args ...Params) *CorporationService {

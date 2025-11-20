@@ -22,6 +22,9 @@ import (
 
 type CharacterService interface {
 	CharacterTokenForCorporation(ctx context.Context, corporationID int32, roles set.Set[app.Role], scopes set.Set[string], checkToken bool) (*app.CharacterToken, error)
+	GetCharacter(ctx context.Context, characterID int32) (*app.Character, error)
+	ListCharacters(ctx context.Context) ([]*app.Character, error)
+	ListRoles(ctx context.Context, characterID int32) ([]app.CharacterRole, error)
 }
 
 // CorporationService provides access to all managed Eve Online corporations both online and from local storage.

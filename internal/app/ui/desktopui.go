@@ -380,6 +380,12 @@ func NewDesktopUI(bu *baseUI) *DesktopUI {
 		})
 	}
 
+	corpMotdItem := iwidget.NewNavPage(
+		"Bulletin",
+		theme.NewThemedResource(icons.MessageSvg),
+		newContentPage("Message of the Day", u.corporationMotd),
+	)
+
 	corpSheetItem := iwidget.NewNavPage(
 		"Corporation Sheet",
 		theme.NewThemedResource(icons.StarCircleOutlineSvg),
@@ -389,7 +395,7 @@ func NewDesktopUI(bu *baseUI) *DesktopUI {
 		)),
 	)
 	corporationNav = iwidget.NewNavDrawer(slices.Concat(
-		[]*iwidget.NavItem{corpSheetItem, corpContractsItem, corpIndustryItem, corpStructuresItem},
+		[]*iwidget.NavItem{corpMotdItem, corpSheetItem, corpContractsItem, corpIndustryItem, corpStructuresItem},
 		corpWalletItems,
 	)...)
 	corporationNav.MinWidth = navDrawerMinWidth
